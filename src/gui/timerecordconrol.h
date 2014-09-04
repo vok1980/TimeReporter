@@ -1,6 +1,7 @@
 #ifndef TIMERECORDCONROL_H
 #define TIMERECORDCONROL_H
 
+#include <QTime>
 
 
 class TimeRecordConrol
@@ -11,6 +12,7 @@ public:
 
 public:
     void CangeState(bool bStarted);
+    QTime GetTime();
 };
 
 

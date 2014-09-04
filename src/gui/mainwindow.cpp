@@ -1,6 +1,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "qtimer.h"
 
 #include "timerecordconrol.h"
 
@@ -12,13 +13,24 @@ MainWindow::MainWindow(QWidget *parent, std::tr1::shared_ptr<TimeRecordConrol> p
     , m_pRecordControl(pTrc)
 {
     ui->setupUi(this);
+
     ui->RecordButton->setCheckable(true);
+
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateCaption()));
+    timer->start(500);
 }
 
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+
+void MainWindow::updateCaption()
+{
+    ui->timeEdit->setTime( m_pRecordControl->GetTime() );
 }
 
 

@@ -23,6 +23,7 @@ public:
 
 private slots:
     void on_RecordButton_clicked(bool checked);
+    void updateCaption();
 
 private:
     Ui::MainWindow *ui;
