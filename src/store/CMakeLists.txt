@@ -5,7 +5,13 @@ project (store)
 
 
 
+set ( SRC
+        Store.cpp
+    )
+
+set ( INC
+        Store.h
+    )
 
 
-
-
+add_library( Store ${INC} ${SRC} )

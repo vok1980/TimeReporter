@@ -33,7 +33,7 @@ QT5_WRAP_UI(UIS_HDRS
 
 add_executable(TimeReporter ${INC} ${SRC} ${UIS_HDRS} )
 
-target_link_libraries(TimeReporter Qt5::Widgets)
+target_link_libraries(TimeReporter Qt5::Widgets Store)
 
 
 
