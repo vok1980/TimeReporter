@@ -20,7 +20,7 @@ public:
 
     typedef unsigned long t_time;
 
-    bool InitConnection()
+    bool InitConnection();
     bool SetReportTime(ReportType type, t_time iValue);
     t_time GetReportedForPeriod(t_time iStartBound, t_time iEndBound, ReportType *pLastReprted = NULL);
 
