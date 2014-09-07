@@ -1,10 +1,13 @@
 
 #include "timerecordconrol.h"
 
+#include "../store/Store.h"
 
 
 TimeRecordConrol::TimeRecordConrol()
-{
+{    
+    m_pStore = std::tr1::shared_ptr<Store> (new Store);
+    m_pStore->InitConnection();
 }
 
 
