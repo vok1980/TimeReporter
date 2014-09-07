@@ -24,4 +24,7 @@ public:
     bool SetReportTime(ReportType type, t_time iValue);
     t_time GetReportedForPeriod(t_time iStartBound, t_time iEndBound, ReportType *pLastReprted = NULL);
 
+private:
+    bool CreateTables(const QString &strDbName);
+
 };
