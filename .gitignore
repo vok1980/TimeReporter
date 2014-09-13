@@ -30,3 +30,4 @@ src/CMakeLists.txt.user
 src-build
 build/project_default
 build-src-Desktop-Default
+/build/build*
