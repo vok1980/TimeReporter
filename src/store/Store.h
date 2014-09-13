@@ -4,6 +4,8 @@
 
 #include <cstddef>
 
+class QSqlDatabase;
+
 
 class Store
 {
@@ -25,6 +27,6 @@ public:
     t_time GetReportedForPeriod(t_time iStartBound, t_time iEndBound, ReportType *pLastReprted = NULL);
 
 private:
-    bool CreateTables(const QString &strDbName);
+    bool CreateTables(QSqlDatabase &db);
 
 };

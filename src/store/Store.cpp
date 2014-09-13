@@ -9,6 +9,7 @@
 
 #define SQLITE_DB_NAME          "sqlite"
 #define TABLE_TIME_RECORDS      "time_records"
+#define TABLE_USERS             "users"
 
 
 Store::Store()
@@ -27,30 +28,43 @@ bool Store::InitConnection()
     bool bSuccess = db.isOpen();
 
     if (bSuccess)
-        CreateTables(SQLITE_DB_NAME);
+        CreateTables(db);
 
     return bSuccess;
 }
 
 
-bool Store::CreateTables(const QString &strDbName)
+bool Store::CreateTables(QSqlDatabase &db)
 {
-    bool bRet = false;
-    QSqlDatabase db = QSqlDatabase::database(strDbName);
+    bool bRet = true;
     QStringList tablesList = db.tables();
+
+    if (!tablesList.contains(TABLE_USERS))
+    {
+        QString queryText;
+        QTextStream(&queryText)
+                << "create table " << TABLE_USERS
+                << " (userid integer NOT NULL PRIMARY KEY, "
+                << " name text ), ";
+
+        QSqlQuery query(queryText, db);
+        bRet = bRet && query.exec();
+    }
 
     if (!tablesList.contains(TABLE_TIME_RECORDS))
     {
         QString queryText;
         QTextStream(&queryText)
                 << "create table " << TABLE_TIME_RECORDS
-                << " (userid integer, "
+                << " (userid integer FOREIGN KEY REFERENCES " << TABLE_USERS << "(userid), "
                 << " type integer, "
                 << " time integer );";
 
         QSqlQuery query(queryText, db);
-        bRet = query.exec();
+        bRet = bRet && query.exec();
     }
+
+    return bRet;
 }
 
 
