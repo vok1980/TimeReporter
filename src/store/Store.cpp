@@ -36,7 +36,6 @@ bool Store::InitConnection()
 
 bool Store::CreateTables(QSqlDatabase &db)
 {
-    bool bRet = true;
     QStringList tablesList = db.tables();
 
     if (!tablesList.contains(TABLE_USERS))
@@ -45,10 +44,15 @@ bool Store::CreateTables(QSqlDatabase &db)
         QTextStream(&queryText)
                 << "create table " << TABLE_USERS
                 << " (userid integer NOT NULL PRIMARY KEY, "
-                << " name text ), ";
+                << " name text ); ";
 
-        QSqlQuery query(queryText, db);
-        bRet = bRet && query.exec();
+        QSqlQuery query(db);
+
+        if ( !query.exec(queryText) )
+        {
+            qCritical() << query.lastError();
+            return false;
+        }
     }
 
     if (!tablesList.contains(TABLE_TIME_RECORDS))
@@ -60,11 +64,16 @@ bool Store::CreateTables(QSqlDatabase &db)
                 << " type integer, "
                 << " time integer );";
 
-        QSqlQuery query(queryText, db);
-        bRet = bRet && query.exec();
+        QSqlQuery query(db);
+
+        if ( !query.exec(queryText) )
+        {
+            qCritical() << query.lastError();
+            return false;
+        }
     }
 
-    return bRet;
+    return true;
 }
 
 
