@@ -3,6 +3,9 @@
 #include <QStringList>
 #include <QTextStream>
 #include <QSqlQuery>
+#include <QDebug>
+#include <QSqlError>
+
 
 #include "Store.h"
 
