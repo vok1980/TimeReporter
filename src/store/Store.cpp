@@ -28,12 +28,11 @@ bool Store::InitConnection()
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", SQLITE_DB_NAME);
     db.setDatabaseName("timereport.db");
     db.open();
-    bool bSuccess = db.isOpen();
 
-    if (bSuccess)
-        CreateTables(db);
+    if (!db.isOpen())
+        return false;
 
-    return bSuccess;
+    return CreateTables(db);
 }
 
 
@@ -46,8 +45,10 @@ bool Store::CreateTables(QSqlDatabase &db)
         QString queryText;
         QTextStream(&queryText)
                 << "create table " << TABLE_USERS
-                << " (userid integer NOT NULL PRIMARY KEY, "
-                << " name text ); ";
+                << "( "
+                << "    id integer NOT NULL PRIMARY KEY, "
+                << "    name text "
+                << "); ";
 
         QSqlQuery query(db);
 
@@ -63,9 +64,12 @@ bool Store::CreateTables(QSqlDatabase &db)
         QString queryText;
         QTextStream(&queryText)
                 << "create table " << TABLE_TIME_RECORDS
-                << " (userid integer FOREIGN KEY REFERENCES " << TABLE_USERS << "(userid), "
-                << " type integer, "
-                << " time integer );";
+                << " ("
+                << "    userid integer, "
+                << "    type integer, "
+                << "    time integer, "
+                << "    FOREIGN KEY (userid) REFERENCES " << TABLE_USERS << "(id)"
+                << ");";
 
         QSqlQuery query(db);
 
